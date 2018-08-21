@@ -10,15 +10,24 @@ public class EnemyMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        PrintAllWaypoints();
+        StartCoroutine(FollowPath());
+        print("I'm back at start");    //does this after FollowPath & yield. But not before end patrol
+        
 	}
 
-    private void PrintAllWaypoints()
+    IEnumerator FollowPath()                //a co-routine sits along site a regular routine. 
     {
+        print("Start Pat");
         foreach(Waypoint waypoint in path)
         {
-            print(waypoint.name);       
+            transform.position = waypoint.transform.position;
+            print("visiting: " + waypoint);
+            yield return new WaitForSeconds(1f);     //"I will give-up for [a second]
         }
+        print("End patrol");
     }
-
 }
+
+
+
+//coroutines have to do with invoke. InvokeRepeating will allow repeating for delta t, but doesn't work w/ loops.
